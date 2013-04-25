@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.geworkbench.org/service/demand"
+        xmlns:tns="http://www.geworkbench.org/service/demand"
+        xmlns:xmime="http://www.w3.org/2005/05/xmlmime" elementFormDefault="qualified">
+
+    <element name="ExecuteDemandRequest" type="tns:DemandInput"/>
+
+    <element name="ExecuteDemandResponse" type="tns:DemandOutput"/>
+
+    <complexType name="DemandInput">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="expfile"  type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+            <element name="nwfile"   type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+            <element name="annofile" type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+            <element name="spfile"   type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="DemandOutput">
+        <sequence>
+            <element name="log" type="string"/>
+            <element name="resfile"  type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+            <element name="edgefile" type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+            <element name="modfile"  type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+        </sequence>
+    </complexType>
+
+</schema>

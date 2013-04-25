@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="demandInputRepository" class="org.geworkbench.service.demand.service.StubDemandInputRepository"/>
+
+    <bean class="org.geworkbench.service.demand.ws.DemandInputRepositoryEndpoint">
+        <constructor-arg ref="demandInputRepository"/>
+    </bean>
+
+    <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping"/>
+
+    <bean id="defaultMethodEndpointAdapter" class="org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter">
+        <property name="methodArgumentResolvers" ref="methodProcessor"/>
+        <property name="methodReturnValueHandlers" ref="methodProcessor"/>
+    </bean>
+
+    <bean id="methodProcessor" class="org.springframework.ws.server.endpoint.adapter.method.MarshallingPayloadMethodProcessor">
+        <constructor-arg ref="marshaller"/>
+    </bean>
+
+    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="org.geworkbench.service.demand.schema"/>
+        <property name="mtomEnabled" value="true"/>
+    </bean>
+
+    <bean id="demand" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="schema"/>
+        <property name="portTypeName" value="demandInputRepository"/>
+        <property name="locationUri" value="http://localhost:8080/demand-server/"/>
+    </bean>
+
+    <bean id="schema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/schema.xsd"/>
+    </bean>
+
+</beans>
