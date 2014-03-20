@@ -26,7 +26,7 @@ public class StubDemandInputRepository implements DemandInputRepository{
     
     private static final String DEMANDROOT = "/ifs/data/c2b2/af_lab/cagrid/r/demand/runs/";
 	private static final String scriptDir = "/ifs/data/c2b2/af_lab/cagrid/r/demand/scripts/";
-	private static final String rscript   = "/nfs/apps/R/2.14.0/bin/Rscript";
+	private static final String rscript   = "/nfs/apps/R/3.0.1/bin/Rscript";
 	private static final String account   = "cagrid";
 	private static final String submitSh  = "demand_submit.sh";
 	private static final long POLL_INTERVAL = 20000;    //20 seconds
@@ -242,6 +242,7 @@ public class StubDemandInputRepository implements DemandInputRepository{
 			brErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			String line = null;
 			while ((line = brIn.readLine())!=null || (line = brErr.readLine())!=null){
+				if(line.startsWith("error")) return false; //cluster scheduler error
 				String[] toks = line.trim().split("\\s+");
 				if (toks.length > 3 && toks[2].equals(runid))
 					return false;
